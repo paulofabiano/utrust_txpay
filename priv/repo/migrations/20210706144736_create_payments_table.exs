@@ -13,6 +13,8 @@ defmodule UtrustTxpay.Repo.Migrations.CreatePaymentsTable do
       add :timestamp, :string
       add :value, :string
       add :fee, :string
+
+      timestamps()
     end
 
     create(unique_index(:payments, [:hash]))
