@@ -1,0 +1,9 @@
+<section>
+  <ul>
+    <%= for payment <- @payments do %>
+    <li>
+      <%= payment.hash %>
+    </li>
+    <% end %>
+  </ul>
+</section>
