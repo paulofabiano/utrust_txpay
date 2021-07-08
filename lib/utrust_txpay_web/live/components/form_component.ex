@@ -4,15 +4,6 @@ defmodule UtrustTxpayWeb.FormComponent do
   alias UtrustTxpay.Payments
   alias UtrustTxpay.Payments.Payment
 
-  # @impl true
-  # def mount(socket) do
-  #   changeset = Payments.change_payment(%Payment{})
-
-  #   socket = assign(socket, changeset: changeset)
-
-  #   {:ok, socket}
-  # end
-
   @impl true
   def render(assigns) do
     ~L"""

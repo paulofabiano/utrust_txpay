@@ -3,24 +3,5 @@
 </section>
 
 <section id="payments">
-  <header>
-    <h1>List of payments</h1>
-  </header>
-
-  <%= if Enum.empty?(@payments) do %>
-    <p>No payment was found.</p>
-  <% else %>
-    <ul id="payments-list" phx-update="prepend">
-      <%= for payment <- @payments do %>
-        <li id="<%= payment.id %>">
-          <%= payment.hash %>
-          <div>Status: <%= payment.status %></div>
-          <div>Confirmations: <%= if payment.block_confirmations, do: payment.block_confirmations, else: "--" %></div>
-          <%= if payment.status == :pending do %>
-            <div><button phx-click="verify-payment" phx-value-id="<%= payment.id %>" phx-disable-with="Checking...">Check</button></div>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
+  <%= live_component @socket, PaymentsListComponent, id: :list, payments: @payments %>
 </section>

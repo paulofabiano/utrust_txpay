@@ -3,9 +3,8 @@ defmodule UtrustTxpayWeb.PaymentsLive do
 
   alias UtrustTxpay.Payments
   alias UtrustTxpay.Payments.Payment
-  alias UtrustTxpay.Etherscan.{Scraper, Transaction}
 
-  alias UtrustTxpayWeb.FormComponent
+  alias UtrustTxpayWeb.{FormComponent, PaymentsListComponent}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -22,21 +21,6 @@ defmodule UtrustTxpayWeb.PaymentsLive do
       )
 
     {:ok, socket, temporary_assigns: [payments: []]}
-  end
-
-  @impl true
-  def handle_event("verify-payment", %{"id" => id}, socket) do
-    :timer.sleep(500)
-
-    case Payments.get_payment!(id) do
-      %Payment{} = payment ->
-        case Scraper.get_transaction(payment.hash) do
-          %Transaction{} = transaction ->
-            update_payment_status(payment, transaction.block_confirmations)
-        end
-    end
-
-    {:noreply, socket}
   end
 
   @impl true
@@ -61,18 +45,5 @@ defmodule UtrustTxpayWeb.PaymentsLive do
       )
 
     {:noreply, socket}
-  end
-
-  defp update_payment_status(payment, block_confirmations) when block_confirmations >= 2 do
-    Payments.update_payment(payment, %{
-      status: "confirmed",
-      block_confirmations: Integer.to_string(block_confirmations)
-    })
-  end
-
-  defp update_payment_status(payment, block_confirmations) do
-    Payments.update_payment(payment, %{
-      block_confirmations: Integer.to_string(block_confirmations)
-    })
   end
 end
