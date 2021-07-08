@@ -1,16 +1,5 @@
 <section id="new-payment">
-  <header>
-    <h1>Create new payment</h1>
-  </header>
-
-  <%= f = form_for @changeset, "#", phx_submit: "create-payment" %>
-    <div class="field">
-      <%= text_input f, :hash, placeholder: "Enter the transaction hash", autocomplete: "off" %>
-      <%= error_tag f, :hash %>
-    </div>
-
-    <%= submit "Create payment", phx_disable_with: "Saving..." %>
-  </form>
+  <%= live_component @socket, FormComponent, id: :form, changeset: @changeset %>
 </section>
 
 <section id="payments">

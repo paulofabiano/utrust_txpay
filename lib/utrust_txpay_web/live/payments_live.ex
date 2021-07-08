@@ -5,6 +5,8 @@ defmodule UtrustTxpayWeb.PaymentsLive do
   alias UtrustTxpay.Payments.Payment
   alias UtrustTxpay.Etherscan.{Scraper, Transaction}
 
+  alias UtrustTxpayWeb.FormComponent
+
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: Payments.subscribe()
@@ -20,30 +22,6 @@ defmodule UtrustTxpayWeb.PaymentsLive do
       )
 
     {:ok, socket, temporary_assigns: [payments: []]}
-  end
-
-  @impl true
-  def handle_event("create-payment", %{"payment" => params}, socket) do
-    case Payments.create_payment(params) do
-      {:ok, payment} ->
-        socket =
-          update(
-            socket,
-            :payments,
-            fn payments -> [payment | payments] end
-          )
-
-        changeset = Payments.change_payment(%Payment{})
-
-        socket = assign(socket, changeset: changeset)
-
-        {:noreply, socket}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        socket = assign(socket, changeset: changeset)
-
-        {:noreply, socket}
-    end
   end
 
   @impl true
