@@ -9,7 +9,7 @@ defmodule UtrustTxpayWeb.FormComponent do
     ~L"""
     <div id="new-payment-container">
       <header>
-        <h1>Create new payment</h1>
+        <h1 class="p4">Create new payment</h1>
       </header>
 
       <%= f = form_for @changeset, "#", phx_submit: "create-payment" %>
