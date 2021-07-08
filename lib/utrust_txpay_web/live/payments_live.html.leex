@@ -3,5 +3,5 @@
 </section>
 
 <section id="payments">
-  <%= live_component @socket, PaymentsListComponent, id: :list, payments: @payments %>
+  <%= live_component @socket, PaymentsListComponent, id: :list, payments: @payments, checking: @checking %>
 </section>
