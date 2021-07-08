@@ -1,5 +1,6 @@
 defmodule UtrustTxpay.Etherscan.Scraper do
   alias UtrustTxpay.Etherscan.Formatter
+  alias UtrustTxpay.Etherscan.Transaction
 
   @tx_url "https://etherscan.io/tx"
 
@@ -29,7 +30,7 @@ defmodule UtrustTxpay.Etherscan.Scraper do
   end
 
   defp build_transaction(nodes) do
-    %UtrustTxPay.Etherscan.Transaction{
+    %Transaction{
       hash: extract_node(nodes, "Transaction Hash"),
       status:
         extract_node(nodes, "Status")
