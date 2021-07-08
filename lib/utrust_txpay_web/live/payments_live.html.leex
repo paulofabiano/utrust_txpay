@@ -1,9 +1,37 @@
-<section>
-  <ul>
-    <%= for payment <- @payments do %>
-    <li>
-      <%= payment.hash %>
-    </li>
-    <% end %>
-  </ul>
+<section id="new-payment">
+  <header>
+    <h1>Create new payment</h1>
+  </header>
+
+  <%= f = form_for @changeset, "#", phx_submit: "create-payment" %>
+    <div class="field">
+      <%= text_input f, :hash, placeholder: "Enter the transaction hash", autocomplete: "off" %>
+      <%= error_tag f, :hash %>
+    </div>
+
+    <%= submit "Create payment", phx_disable_with: "Saving..." %>
+  </form>
+</section>
+
+<section id="payments">
+  <header>
+    <h1>List of payments</h1>
+  </header>
+
+  <%= if Enum.empty?(@payments) do %>
+    <p>No payment was found.</p>
+  <% else %>
+    <ul id="payments-list" phx-update="prepend">
+      <%= for payment <- @payments do %>
+        <li id="<%= payment.id %>">
+          <%= payment.hash %>
+          <div>Status: <%= payment.status %></div>
+          <div>Confirmations: <%= if payment.block_confirmations, do: payment.block_confirmations, else: "--" %></div>
+          <%= if payment.status == :pending do %>
+            <div><button phx-click="verify-payment" phx-value-id="<%= payment.id %>" phx-disable-with="Checking...">Check</button></div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 </section>
