@@ -1,4 +1,4 @@
-defmodule UtrustTxPay.Etherscan.Transaction do
+defmodule UtrustTxpay.Etherscan.Transaction do
   @enforce_keys [
     :hash,
     :status,
