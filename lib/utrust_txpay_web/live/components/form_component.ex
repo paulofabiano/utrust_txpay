@@ -12,7 +12,7 @@ defmodule UtrustTxpayWeb.FormComponent do
         <h1>Create new payment</h1>
       </header>
 
-      <%= f = form_for @changeset, "#", phx_submit: "create-payment", phx_target: @myself %>
+      <%= f = form_for @changeset, "#", phx_submit: "create-payment" %>
         <div class="field">
           <%= text_input f, :hash, placeholder: "Enter the transaction hash", autocomplete: "off" %>
           <%= error_tag f, :hash %>
@@ -22,29 +22,5 @@ defmodule UtrustTxpayWeb.FormComponent do
       </form>
     </div>
     """
-  end
-
-  @impl true
-  def handle_event("create-payment", %{"payment" => params}, socket) do
-    case Payments.create_payment(params) do
-      {:ok, payment} ->
-        socket =
-          update(
-            socket,
-            :payments,
-            fn payments -> [payment | payments] end
-          )
-
-        changeset = Payments.change_payment(%Payment{})
-
-        socket = assign(socket, changeset: changeset)
-
-        {:noreply, socket}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        socket = assign(socket, changeset: changeset)
-
-        {:noreply, socket}
-    end
   end
 end
