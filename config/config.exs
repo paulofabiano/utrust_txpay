@@ -10,6 +10,10 @@ use Mix.Config
 config :utrust_txpay,
   ecto_repos: [UtrustTxpay.Repo]
 
+config :utrust_txpay, UtrustTxpay.Repo,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id]
+
 # Configures the endpoint
 config :utrust_txpay, UtrustTxpayWeb.Endpoint,
   url: [host: "localhost"],
