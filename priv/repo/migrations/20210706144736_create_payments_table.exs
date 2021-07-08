@@ -1,7 +1,7 @@
 defmodule UtrustTxpay.Repo.Migrations.CreatePaymentsTable do
   use Ecto.Migration
 
-  alias UtrustTxPay.Schema.PaymentStatusEnum
+  alias UtrustTxpay.Schema.PaymentStatusEnum
 
   def change do
     PaymentStatusEnum.create_type()
