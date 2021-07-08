@@ -1,10 +1,11 @@
-defmodule UtrustTxpay.Payment do
+defmodule UtrustTxpay.Payments.Payment do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias UtrustTxPay.Schema.PaymentStatusEnum
+  alias UtrustTxpay.Schema.PaymentStatusEnum
 
   @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
 
   @fields [
     :hash,
@@ -15,9 +16,11 @@ defmodule UtrustTxpay.Payment do
     :fee
   ]
 
+  @required_fields [:hash]
+
   schema "payments" do
     field :hash, :string
-    field :status, PaymentStatusEnum
+    field :status, PaymentStatusEnum, default: "pending"
     field :block_confirmations, :string
     field :timestamp, :string
     field :value, :string
@@ -26,10 +29,10 @@ defmodule UtrustTxpay.Payment do
     timestamps()
   end
 
-  def changeset(params) do
-    %__MODULE__{}
+  def changeset(payment, params) do
+    payment
     |> cast(params, @fields)
-    |> validate_required(@fields)
+    |> validate_required(@required_fields)
     |> unique_constraint([:hash])
   end
 end
