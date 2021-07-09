@@ -4,6 +4,8 @@ defmodule UtrustTxpay.Etherscan.Scraper do
 
   @tx_url "https://etherscan.io/tx"
 
+  def get_etherscan_link(hash), do: "#{@tx_url}/#{hash}"
+
   def get_transaction(tx) do
     headers = [
       {"user-agent",
@@ -11,7 +13,7 @@ defmodule UtrustTxpay.Etherscan.Scraper do
       {"referer", "https://www.google.com/"}
     ]
 
-    case(HTTPoison.get("#{@tx_url}/#{tx}", headers)) do
+    case(HTTPoison.get(get_etherscan_link(tx), headers)) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         parse_and_find_nodes(body)
 
