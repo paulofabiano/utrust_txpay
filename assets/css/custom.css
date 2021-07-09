@@ -1,0 +1,11 @@
+#header h1 {
+  display: block;
+  background: url("/images/utrust-logo.svg") no-repeat center center;
+  background-size: 100%;
+  width: 107px;
+  height: 107px;
+}
+
+#header h1 span {
+  display: none;
+}
