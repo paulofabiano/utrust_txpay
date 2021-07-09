@@ -6,6 +6,7 @@ defmodule UtrustTxpayWeb.PaymentsLive do
   alias UtrustTxpay.Etherscan.{Scraper, Transaction}
 
   alias UtrustTxpayWeb.{FormComponent, PaymentsListComponent}
+  alias Decimal, as: D
 
   @impl true
   def mount(_params, _session, socket) do
@@ -49,6 +50,38 @@ defmodule UtrustTxpayWeb.PaymentsLive do
     end
   end
 
+  def handle_event("delete-payment", %{"id" => id}, socket) do
+    case Payments.get_payment!(id) do
+      %Payment{} = payment ->
+        case Payments.delete_payment(payment) do
+          {:ok, %Payment{}} ->
+            socket =
+              socket
+              |> put_flash(:info, "Payment successfully deleted.")
+              |> update(
+                :payments,
+                fn payments -> List.delete(payments, payment) end
+              )
+
+            {:reply, socket}
+
+          {:error, %Ecto.Changeset{}} ->
+            socket =
+              socket
+              |> put_flash(:error, "Error deleting payment.")
+
+            {:noreply, socket}
+        end
+
+      _ ->
+        socket =
+          socket
+          |> put_flash(:error, "Payment not found.")
+
+        {:noreply, socket}
+    end
+  end
+
   @impl true
   def handle_event("verify-payment", %{"id" => id}, socket) do
     :timer.sleep(500)
@@ -57,23 +90,36 @@ defmodule UtrustTxpayWeb.PaymentsLive do
       %Payment{} = payment ->
         case Scraper.get_transaction(payment.hash) do
           %Transaction{} = transaction ->
-            update_payment_status(payment, transaction.block_confirmations)
+            update_payment_status(payment, transaction)
         end
     end
 
     {:noreply, socket}
   end
 
-  defp update_payment_status(payment, block_confirmations) when block_confirmations >= 2 do
+  defp update_payment_status(payment, %Transaction{
+         block_confirmations: block_confirmations,
+         value: value,
+         fee: fee
+       })
+       when block_confirmations >= 2 do
     Payments.update_payment(payment, %{
       status: "confirmed",
-      block_confirmations: Integer.to_string(block_confirmations)
+      block_confirmations: Integer.to_string(block_confirmations),
+      value: D.to_string(value),
+      fee: D.to_string(fee)
     })
   end
 
-  defp update_payment_status(payment, block_confirmations) do
+  defp update_payment_status(payment, %Transaction{
+         block_confirmations: block_confirmations,
+         value: value,
+         fee: fee
+       }) do
     Payments.update_payment(payment, %{
-      block_confirmations: Integer.to_string(block_confirmations)
+      block_confirmations: Integer.to_string(block_confirmations),
+      value: D.to_string(value),
+      fee: D.to_string(fee)
     })
   end
 
@@ -82,7 +128,7 @@ defmodule UtrustTxpayWeb.PaymentsLive do
     new_payment =
       case Scraper.get_transaction(payment.hash) do
         %Transaction{} = transaction ->
-          update_payment_status(payment, transaction.block_confirmations)
+          update_payment_status(payment, transaction)
 
         _ ->
           payment
