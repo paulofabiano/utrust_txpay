@@ -43,4 +43,8 @@ defmodule UtrustTxpay.Payments do
   def change_payment(%Payment{} = payment, attrs \\ %{}) do
     Payment.changeset(payment, attrs)
   end
+
+  def delete_payment(%Payment{} = payment) do
+    Repo.delete(payment)
+  end
 end
