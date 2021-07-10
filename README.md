@@ -1,5 +1,7 @@
 # Fullstack Developer Coding Challenge
 
+This is my code challenge for a position at UTrust. You can see details about my implementation by accessing the [SOLUTION.md](https://github.com/paulofabiano/utrust_txpay/blob/main/SOLUTION.md) file.
+
 ## Background
 
 Utrust's mission is to deliver a trusted blockchain payment solution for the world's leading companies, ensuring payment safety for all parties.
