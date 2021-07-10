@@ -16,9 +16,9 @@ defmodule UtrustTxpayWeb.PaymentsListComponent do
           <%= for payment <- @payments do %>
             <li id="<%= payment.id %>" class="flex flex-row border border-gray-300 rounded-lg flex-col">
               <div class="p-4 border-b border-gray-300 flex flex-row">
-                <div class="flex flex-row flex-grow items-center">
+                <div class="flex flex-row flex-grow items-center truncate">
                   <div class="rounded-full w-3 h-3 mr-2 <%= if payment.status == :pending, do: 'bg-yellow-300', else: 'bg-green-300' %>"></div>
-                  <div class="text-sm text-gray-700"><%= payment.hash %></div>
+                  <div class="text-sm text-gray-700 truncate"><%= payment.hash %></div>
                 </div>
                 <div class="flex-none">
                   <%= link to: UtrustTxpay.Etherscan.Scraper.get_etherscan_link(payment.hash), method: :get, target: "_blank" do %>
@@ -31,19 +31,27 @@ defmodule UtrustTxpayWeb.PaymentsListComponent do
               <div class="p-4 flex flex-row items-center">
                 <div class="flex flex-grow">
                   <%= if payment.id == @checking do %>
-                    <div class="text-sm text-gray-700">Confirmations: Checking...</div>
+                    <div class="text-sm text-gray-700">
+                      <div class="relative flex justify-center items-center">
+                        <div class="inline-block rounded-full animate-bounce ease duration-300 w-3 h-3 bg-purple-500 mr-1"></div>
+                        <div class="inline-block rounded-full animate-bounce ease duration-400 w-3 h-3 bg-purple-500 mr-1"></div>
+                        <div class="inline-block rounded-full animate-bounce ease duration-500 w-3 h-3 bg-purple-500"></div>
+                      </div>
+                    </div>
                   <% else %>
-                    <div class="text-sm text-gray-700">Confirmations: <%= if payment.block_confirmations, do: payment.block_confirmations, else: "N/A" %></div>
+                    <div class="text-sm text-gray-700">
+                      Confirmations: <%= if payment.block_confirmations, do: payment.block_confirmations, else: "N/A" %>
+                    </div>
+                    <span class="px-4 text-sm text-gray-700">|</span>
+                    <div class="text-sm text-gray-700">Status: <%= payment.status %></div>
                   <% end %>
-                  <span class="px-4 text-sm text-gray-700">|</span>
-                  <div class="text-sm text-gray-700">Status: <%= payment.status %></div>
                 </div>
                 <%= if payment.status == :pending do %>
                   <button phx-click="verify-payment" phx-value-id="<%= payment.id %>" phx-disable-with="Checking..." class="bg-gray-200 text-xs px-2 py-1 flex-none">
                     Verify transaction again
                   </button>
                 <% else %>
-                  <button phx-click="delete-payment">
+                  <button phx-click="delete-payment" phx-value-id="<%= payment.id %>">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
