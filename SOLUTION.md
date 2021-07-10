@@ -34,7 +34,7 @@ I created a **/payments** route in charge of loading this new **PaymentsLiveView
 
 I wanted some nice look and feel for this simple page so I decided to design an UI using Figma. You can see the original design in [https://bit.ly/3yI4YWN](https://bit.ly/3yI4YWN). It was implemented within the application using Tailwind CSS in order to speed up the development.
 
-<img src="https://raw.githubusercontent.com/paulofabiano/utrust_txpay/main/assets/static/images/utrust-txpay.png?token=AAGASISYZLAWFCDLEVOPJLDA5HWBG" />
+<p align="center"><img src="https://raw.githubusercontent.com/paulofabiano/utrust_txpay/main/assets/static/images/utrust-txpay.png?token=AAGASISYZLAWFCDLEVOPJLDA5HWBG" /></p>
 
 This page has two sections: The first one is the form where we can create a new payment and, the second one, is a simple list of all payments created.
 
