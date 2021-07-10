@@ -17,7 +17,6 @@ defmodule UtrustTxpayWeb.Router do
   scope "/", UtrustTxpayWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
     live "/payments", PaymentsLive, :index
   end
 
