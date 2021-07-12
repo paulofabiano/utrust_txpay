@@ -1,6 +1,5 @@
 env:
   MIX_ENV: test
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 name: CI
 
@@ -45,7 +44,7 @@ jobs:
         with:
           otp-version: 22.2.6
           elixir-version: 1.12.0
-      - uses: akhileshns/heroku-deploy@v3.8.8 # This is the action
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_TOKEN}}
           heroku_app_name: 'utrust-txpay' #Must be unique in Heroku
