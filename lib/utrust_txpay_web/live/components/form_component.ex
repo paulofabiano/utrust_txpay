@@ -9,7 +9,7 @@ defmodule UtrustTxpayWeb.FormComponent do
         <h1 class="text-xl text-purple-600">Create new payment</h1>
       </header>
 
-      <%= f = form_for @changeset, "#", phx_submit: "create-payment", class: "flex flex-row border border-gray-300 rounded-lg p-4" %>
+      <%= f = form_for @changeset, "#", id: "new-payment-form", phx_submit: "create-payment", class: "flex flex-row border border-gray-300 rounded-lg p-4" %>
         <div class="flex flex-grow">
           <%= text_input f, :hash, placeholder: "Enter the transaction hash", autocomplete: "off", class: "flex-grow focus:outline-none text-sm" %>
           <%= error_tag f, :hash %>
