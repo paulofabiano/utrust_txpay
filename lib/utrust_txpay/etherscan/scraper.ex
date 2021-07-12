@@ -9,8 +9,8 @@ defmodule UtrustTxpay.Etherscan.Scraper do
   def get_transaction(tx) do
     headers = [
       {"user-agent",
-       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"},
-      {"referer", "https://www.google.com/"}
+       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"},
+      {"referer", "https://utrust-txpay.herokuapp.com/"}
     ]
 
     case(HTTPoison.get(get_etherscan_link(tx), headers)) do
