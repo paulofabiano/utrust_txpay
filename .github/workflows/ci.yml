@@ -8,6 +8,7 @@ on: push
 
 jobs:
   test:
+    name: "Testing"
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -31,3 +32,19 @@ jobs:
           elixir-version: 1.12.0
       - run: mix deps.get
       - run: mix test
+  heroku-deploy:
+    name: Deploy to Heroku
+    runs-on: ubuntu-18.04
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: 22.2.6
+          elixir-version: 1.12.0
+      - name: Deploy to Production
+        env:
+          HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+          HEROKU_APP_NAME: 'utrust-txpay'
+        if: github.ref == 'refs/heads/main' && job.status == 'success'
+        run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin/main:main

@@ -13,7 +13,7 @@ config :utrust_txpay, UtrustTxpay.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 if System.get_env("GITHUB_ACTIONS") do
-  config :my_app, MyApp.Repo,
+  config :utrust_txpay, UtrustTxpay.Repo,
     username: "postgres",
     password: "postgres"
 end
