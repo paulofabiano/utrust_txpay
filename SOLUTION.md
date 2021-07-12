@@ -50,6 +50,7 @@ If the blocks confirmations returned from the scraper are higher than 1, the pay
 
 - Elixir 1.12.0
 - Erlang/OTP 22
+- PostgreSQL (if you have docker, you can docker-compose up -d in the root folder)
 
 ## RUNNING THE APPLICATION
 
@@ -66,6 +67,5 @@ Simply run `mix test` from the project's root folder.
 - Create docker and docker-compose implementations to make it easier to run the application not concerning about previous setups;
 - Improve testing coverage;
 - Using OTP for implementing a supervisor tree for auto validating transactions from all pending payments without any action from the user;
-- Setup Github Actions for CI/CD on production (Heroku);
 - Convert live_components to React;
 - Implement REST API/GraphQL for Payments entity and Etherscan's Scraper.
