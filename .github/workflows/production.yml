@@ -1,5 +1,9 @@
 env:
   MIX_ENV: test
+<<<<<<< HEAD
+=======
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+>>>>>>> a25bd19... github actions only for pull request and create specific one for deployment in production
 
 name: CI
 
